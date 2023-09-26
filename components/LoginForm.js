@@ -1,14 +1,24 @@
+// Importerer nødvendige moduler fra React og React Native bibliotekerne.
 import React, { useState } from 'react';
 import { Button, Text, View, TextInput, StyleSheet } from 'react-native';
+
+// Importerer Firebase autentificeringsfunktioner.
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+// Importerer ikonbiblioteket til brug i appen.
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+// LoginForm komponenten, som giver brugeren mulighed for at logge ind.
 function LoginForm({ setJustSignedUp, navigation }) {
+    // Initialiserer Firebase autentificering.
     const auth = getAuth();
+
+    // State variabler til at holde styr på brugerens input og eventuelle fejlmeddelelser.
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
 
+    // Funktion til at håndtere indsendelse af loginformularen.
     const handleSubmit = async () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -22,6 +32,7 @@ function LoginForm({ setJustSignedUp, navigation }) {
         });
     }
 
+    // Returnerer JSX til at vise loginformularen.
     return (
         <View style={styles.container}>
             <Ionicons name="person-circle-outline" size={100} color="#4F8EF7" style={styles.icon} />
