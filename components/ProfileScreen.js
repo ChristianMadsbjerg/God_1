@@ -1,33 +1,38 @@
+// Importerer nødvendige moduler fra React og React Native bibliotekerne.
 import React from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
+
+// Importerer Firebase initialiserings- og autentificeringsfunktioner.
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
 
-
+// ProfileScreen komponenten, som viser den aktive brugers profil.
 function ProfileScreen () {
 
+    // Initialiserer Firebase autentificering.
     const auth = getAuth();
-    const user = auth.currentUser
-    //handleLogout håndterer log ud af en aktiv bruger.
-    //Metoden er en prædefineret metode, som firebase stiller tilrådighed  https://firebase.google.com/docs/auth/web/password-auth#next_steps
-    //Metoden er et asynkrontkald.
+
+    // Henter den aktive bruger.
+    const user = auth.currentUser;
+
+    // handleLogOut funktionen håndterer log ud af en aktiv bruger.
+    // Metoden er en prædefineret metode, som firebase stiller til rådighed.
     const handleLogOut = async () => {
         await signOut(auth).then(() => {
-            // Sign-out successful.
+            // Log ud var vellykket.
           }).catch((error) => {
-            // An error happened.
+            // Der skete en fejl.
           });
     };
 
-    //Hvis der af en eller anden grund ikke skulle være muligt at fremfinde den aktive bruger,
-    //skal der udprintes en besked om dette igennem en tekstkomponent
+    // Hvis der af en eller anden grund ikke skulle være muligt at fremfinde den aktive bruger,
+    // skal der udprintes en besked om dette igennem en tekstkomponent.
     if (!auth.currentUser) {
         return <View><Text>Not found</Text></View>;
     }
 
-    //I return() udnyttes en prædefineret metode, som firebase stiller til rådighed.
+    // I return() udnyttes en prædefineret metode, som firebase stiller til rådighed.
     // Metoden returnerer mailadressen af den aktive bruger.
-    // Mailadressen udskrives ved brug af en tekstkomponent.
     return (
         <View style={styles.container} >
             <Text>Current user: {user.email}</Text>
@@ -37,7 +42,7 @@ function ProfileScreen () {
 
 }
 
-//Lokal styling til brug i ProfileScreen
+// Lokal styling til brug i ProfileScreen komponenten.
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -48,5 +53,5 @@ const styles = StyleSheet.create({
     },
 });
 
-//Eksport af Loginform, således denne kan importeres og benyttes i andre komponenter
-export default ProfileScreen
+// Eksporterer ProfileScreen komponenten som standard.
+export default ProfileScreen;
