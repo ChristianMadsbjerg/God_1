@@ -1,12 +1,17 @@
+// Importerer nødvendige moduler fra React og React Native bibliotekerne.
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, FlatList, Image, Button, ActivityIndicator } from 'react-native';
 
+// Definerer Consultant komponenten.
 function Consultant() {
-    const [consultants, setConsultants] = useState([]);
-    const [selectedConsultant, setSelectedConsultant] = useState(null);
-    const [loading, setLoading] = useState(true);
+    // Initialiserer state variabler.
+    const [consultants, setConsultants] = useState([]); // Liste af konsulenter.
+    const [selectedConsultant, setSelectedConsultant] = useState(null); // Den valgte konsulent for detaljevisning.
+    const [loading, setLoading] = useState(true); // Indikator for om data er ved at blive hentet.
 
+    // useEffect hook der kører ved komponentens mount.
     useEffect(() => {
+        // Henter konsulentdata fra en ekstern API.
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => {
                 if (!response.ok) {
@@ -15,6 +20,7 @@ function Consultant() {
                 return response.json();
             })
             .then(data => {
+                // Forbedrer dataen med ekstra felter som erfaring, speciale og billede.
                 const enhancedData = data.map(consultant => ({
                     ...consultant,
                     experience: Math.floor(Math.random() * 20) + 1,
@@ -30,10 +36,12 @@ function Consultant() {
             });
     }, []);
     
+    // Viser en indlæsningsindikator, hvis data stadig hentes.
     if (loading) {
         return <ActivityIndicator size="large" color="#0000ff" />;
     }
 
+    // Returnerer hovedkomponenten med en liste over konsulenter og en detaljevisning.
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Konsulenter</Text>
@@ -65,6 +73,7 @@ function Consultant() {
     );
 }
 
+// Definerer styles til komponenten ved hjælp af StyleSheet.
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -129,4 +138,5 @@ const styles = StyleSheet.create({
     }
 });
 
+// Eksporterer Consultant komponenten som standard.
 export default Consultant;
