@@ -1,37 +1,35 @@
+// Importerer nødvendige moduler fra React og React Native bibliotekerne.
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import Modal from 'react-native-modal';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'; // Importerer FontAwesome ikon biblioteket.
+import Modal from 'react-native-modal'; // Importerer Modal komponenten til at vise pop-up vinduer.
 
+// Definerer Company komponenten.
 function Company() {
-    const [companies, setCompanies] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedCompany, setSelectedCompany] = useState(null);
+    // Initialiserer state variabler.
+    const [companies, setCompanies] = useState([]); // Liste af virksomheder.
+    const [loading, setLoading] = useState(true); // Indikator for om data er ved at blive hentet.
+    const [selectedCompany, setSelectedCompany] = useState(null); // Den valgte virksomhed for modal visning.
 
+    // useEffect hook der kører ved komponentens mount.
     useEffect(() => {
-        generateCompanies();
+        generateCompanies(); // Kalder funktionen for at generere virksomhedsdata.
     }, []);
 
+    // Asynkron funktion til at generere en liste af virksomheder.
     async function generateCompanies() {
         try {
             // Liste over tilgængelige FontAwesome-ikoner.
             const fontAwesomeIcons = [
-                'briefcase',
-                'building',
-                'industry',
-                'money',
-                'shopping-cart',
-                'users',
-                'globe',
-                'rocket',
-                'puzzle-piece',
-                'desktop',
+                'briefcase', 'building', 'industry', 'money', 'shopping-cart',
+                'users', 'globe', 'rocket', 'puzzle-piece', 'desktop',
             ];
 
             // Antal virksomheder du vil generere (her er det 10).
             const numberOfCompanies = 10;
             const generatedCompanies = [];
 
+            // Loop for at generere virksomhedsdata.
             for (let i = 0; i < numberOfCompanies; i++) {
                 const randomIcon = fontAwesomeIcons[Math.floor(Math.random() * fontAwesomeIcons.length)];
                 const companyName = `Company ${i + 1}`;
@@ -39,6 +37,7 @@ function Company() {
                 const topic = generateRandomTopic();
                 const description = generateRandomDescription();
 
+                // Tilføjer den genererede virksomhed til listen.
                 generatedCompanies.push({
                     name: companyName,
                     icon: randomIcon,
@@ -48,6 +47,7 @@ function Company() {
                 });
             }
 
+            // Opdaterer state variablerne med de genererede data.
             setCompanies(generatedCompanies);
             setLoading(false);
         } catch (error) {
@@ -76,14 +76,17 @@ function Company() {
         return descriptions[randomIndex];
     }
 
+    // Funktion til at åbne modalen og vise den valgte virksomheds beskrivelse.
     const toggleModal = (company) => {
         setSelectedCompany(company);
     };
 
+    // Funktion til at lukke modalen.
     const closeModal = () => {
         setSelectedCompany(null);
     };
 
+    // Viser en indlæsningsbesked, hvis data stadig hentes.
     if (loading) {
         return (
             <View style={styles.container}>
@@ -92,6 +95,7 @@ function Company() {
         );
     }
 
+    // Returnerer hovedkomponenten med en liste over virksomheder og en modal til at vise beskrivelser.
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Virksomheder uden konsulenter</Text>
@@ -126,6 +130,7 @@ function Company() {
     );
 }
 
+// Definerer styles til komponenten ved hjælp af StyleSheet.
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -169,7 +174,7 @@ const styles = StyleSheet.create({
     modalDescription: {
         fontSize: 16,
         marginBottom: 20,
-    }, // Tilføj den manglende }
+    },
     closeButton: {
         fontSize: 18,
         color: '#4F8EF7',
@@ -178,4 +183,5 @@ const styles = StyleSheet.create({
     },
 });
 
+// Eksporterer Company komponenten som standard.
 export default Company;
