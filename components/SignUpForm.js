@@ -1,15 +1,20 @@
+// Importerer nødvendige moduler fra React, React Native og Firebase bibliotekerne.
 import React, { useState } from 'react';
 import { Button, Text, View, TextInput, StyleSheet } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+// Definerer SignUpForm komponenten.
 function SignUpForm({ setJustSignedUp }) {
+    // Initialiserer state variabler for e-mail, password og eventuelle fejlbeskeder.
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
 
+    // Initialiserer Firebase autentificering.
     const auth = getAuth();
 
+    // Definerer handleSubmit funktionen, som håndterer brugeroprettelsesprocessen.
     const handleSubmit = async () => {
         await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -23,6 +28,7 @@ function SignUpForm({ setJustSignedUp }) {
         });
     }
 
+    // Renderer tilmeldingsformularen.
     return (
         <View style={styles.container}>
             <Ionicons name="person-circle-outline" size={100} color="#4F8EF7" style={styles.icon} />
@@ -50,8 +56,7 @@ function SignUpForm({ setJustSignedUp }) {
     );
 }
 
-
-//Lokal styling til brug i SignUpForm
+// Definerer lokal styling til SignUpForm komponenten.
 const styles = StyleSheet.create({
     error: {
         color: 'red',
@@ -89,4 +94,5 @@ const styles = StyleSheet.create({
     },
 });
 
+// Eksporterer SignUpForm komponenten, så den kan importeres og benyttes i andre komponenter.
 export default SignUpForm;
